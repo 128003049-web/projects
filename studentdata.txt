@@ -1,0 +1,75 @@
+#include <iostream>
+#include <fstream>
+using namespace std;
+
+struct Student {
+    int roll;
+    char name[50];
+    float marks;
+};
+
+int main() {
+    Student s;
+    int choice;
+    fstream file;
+
+    while(true) {
+        cout << "\n1. Add Student";
+        cout << "\n2. Display Students";
+        cout << "\n3. Search Student";
+        cout << "\n4. Exit";
+        cout << "\nEnter choice: ";
+        cin >> choice;
+
+        if(choice == 1) {
+            file.open("student.txt", ios::app);
+
+            cout << "Enter Roll: ";
+            cin >> s.roll;
+            cout << "Enter Name: ";
+            cin >> s.name;
+            cout << "Enter Marks: ";
+            cin >> s.marks;
+
+            file << s.roll << " " << s.name << " " << s.marks << endl;
+            file.close();
+        }
+
+        else if(choice == 2) {
+            file.open("student.txt", ios::in);
+
+            cout << "\nRoll  Name  Marks\n";
+            while(file >> s.roll >> s.name >> s.marks) {
+                cout << s.roll << " " << s.name << " " << s.marks << endl;
+            }
+
+            file.close();
+        }
+
+        else if(choice == 3) {
+            int r, found = 0;
+            cout << "Enter roll to search: ";
+            cin >> r;
+
+            file.open("student.txt", ios::in);
+
+            while(file >> s.roll >> s.name >> s.marks) {
+                if(s.roll == r) {
+                    cout << "Found: " << s.roll << " " << s.name << " " << s.marks << endl;
+                    found = 1;
+                }
+            }
+
+            if(found == 0)
+                cout << "Student not found";
+
+            file.close();
+        }
+
+        else if(choice == 4) {
+            break;
+        }
+    }
+
+    return 0;
+}
